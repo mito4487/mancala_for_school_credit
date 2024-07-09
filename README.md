@@ -1,0 +1,1 @@
+# mankara_for_school_credit
