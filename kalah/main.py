@@ -1,6 +1,6 @@
 #import evaluate
-import sys
-import threading
+#import sys
+#import threading
 
 #sys.setrecursionlimit(67108864)
 #　2^20のstackメモリを確保
@@ -23,13 +23,13 @@ index
 #end
 def end(mancala_seeds):
     end_f=False
-    for i in range(1,6):
+    for i in range(1,7):
         if(mancala_seeds[i]!=0):
             end_f=True
     if(end_f):
         return end_f
     end_f=False
-    for i in range(8,13):
+    for i in range(8,14):
         if(mancala_seeds[i]!=0):
             end_f=True       
     if(end_f):
@@ -42,8 +42,10 @@ def judge(mancala_seed,player_num):
         enemy=1
     else:
         enemy=0
-    for i in range(7):
+    for i in range(1,8):
         player[0]+=mancala_seed[i]
+        if(i+7==14):
+            i=-7
         player[1]+=mancala_seed[i+7]
     if(player[player_num]>player[enemy]):
         return 1
@@ -105,7 +107,8 @@ def evaluate_2(mancala_seeds):
 
 def tree_selecting(mancala_seeds,startingPosition,nowdepth,turn,player,alpha,beta):
     nowdepth+=1
-    endf=end(mancala_seeds)
+    endf=not((mancala[1]==0 and mancala[2]==0 and mancala[3]==0 and mancala[4]==0 and mancala[5]==0 and mancala[6]==0) or (mancala[8]==0 and mancala[9]==0 and mancala[10]==0 and mancala[11]==0 and mancala[12]==0 and mancala[13]==0))
+    
     if(nowdepth==depth):
         if(player):
             return evaluate_1(mancala_seeds)
@@ -136,7 +139,7 @@ def tree_selecting(mancala_seeds,startingPosition,nowdepth,turn,player,alpha,bet
 
 
 endf=True
-print(sys.getrecursionlimit())
+#print(sys.getrecursionlimit())
 while(endf):
     #player1 turn
     copy=mancala[:]
@@ -148,7 +151,7 @@ while(endf):
     score=tree_selecting(copy,non_pass,0,0,True,0,100000)
     start=non_pass
     non_pass+=1
-    for i in range(non_pass,8):
+    for i in range(non_pass,7):
         if(copy[i]!=0):
             hiscore=tree_selecting(copy,i,0,0,True,0,100000)
             #print(copy)
@@ -157,26 +160,27 @@ while(endf):
                 start=i    
     SowingSeeds(0,start,mancala)
     print("  "+str(mancala[1])+"  "+str(mancala[2])+"  "+str(mancala[3])+"  "+str(mancala[4])+"  "+str(mancala[5])+"  "+str(mancala[6])+"\n"
-          +str(mancala[0])+"                  "+str(mancala[7])+"       *1\n"
+          +str(mancala[0])+"         st"+str(start)+"         "+str(mancala[7])+"       *1\n"
           +"  "+str(mancala[13])+"  "+str(mancala[12])+"  "+str(mancala[11])+"  "+str(mancala[10])+"  "+str(mancala[9])+"  "+str(mancala[8])+"\n\n")
     
     Rotate(mancala)
-    endf=end(mancala)
+    endf=not((mancala[1]==0 and mancala[2]==0 and mancala[3]==0 and mancala[4]==0 and mancala[5]==0 and mancala[6]==0) or (mancala[8]==0 and mancala[9]==0 and mancala[10]==0 and mancala[11]==0 and mancala[12]==0 and mancala[13]==0))
     
-    if(not endf):
+    if (not endf):
+        Rotate(mancala)
         break
     #player2 turn
     copy=mancala[:]
     score=tree_selecting(copy,1,0,1,False,0,100000)
     start=1
-    for i in range(1,6):
+    for i in range(1,7):
         if(copy[i]!=0):
             non_pass=i
             break
     score=tree_selecting(copy,non_pass,0,0,True,0,100000)
     start=non_pass
     non_pass+=1
-    for i in range(non_pass,8):
+    for i in range(non_pass,7):
         if(copy!=0):
             hiscore=tree_selecting(copy,i,0,1,False,0,100000)
             if(score<hiscore):
@@ -184,9 +188,10 @@ while(endf):
                 start=i    
     SowingSeeds(0,start,mancala)
     Rotate(mancala)
-    endf=end(mancala)
+    endf=not((mancala[1]==0 and mancala[2]==0 and mancala[3]==0 and mancala[4]==0 and mancala[5]==0 and mancala[6]==0) or (mancala[8]==0 and mancala[9]==0 and mancala[10]==0 and mancala[11]==0 and mancala[12]==0 and mancala[13]==0))
+    
     print("  "+str(mancala[1])+"  "+str(mancala[2])+"  "+str(mancala[3])+"  "+str(mancala[4])+"  "+str(mancala[5])+"  "+str(mancala[6])+"\n"
-          +str(mancala[0])+"                  "+str(mancala[7])+"     *2\n"
+          +str(mancala[0])+"        st"+str(start)+"           "+str(mancala[7])+"     *2\n"
           +"  "+str(mancala[13])+"  "+str(mancala[12])+"  "+str(mancala[11])+"  "+str(mancala[10])+"  "+str(mancala[9])+"  "+str(mancala[8])+"\n\n")
     
 win=judge(mancala,0)
