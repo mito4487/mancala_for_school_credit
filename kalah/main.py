@@ -7,7 +7,7 @@
 #threading.stack_size(1024*1024)
 mancala=[0,4,4,4,4,4,4,0,4,4,4,4,4,4]
 face={1:13,2:12,3:11,4:10,5:9,6:8,13:1,12:2,11:3,10:4,9:5,8:6}
-depth=2
+depth=5
 
 """
 start seed
@@ -126,6 +126,7 @@ def tree_selecting(mancala_seeds,startingPosition,nowdepth,turn,player,alpha,bet
                 score=tree_selecting(now_mancala_seeds,i,nowdepth-1,turn,player,alpha,beta)
             else:
                 turn=ban[turn]
+                Rotate(now_mancala_seeds)
                 score=-tree_selecting(now_mancala_seeds,i,nowdepth,turn,player,alpha=-beta,beta=-alpha)
             if(score>alpha):
                 alpha=score
