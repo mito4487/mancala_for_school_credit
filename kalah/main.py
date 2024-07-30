@@ -98,11 +98,11 @@ def Rotate(mancala_seeds):
 keisuu=10#勝敗が決まったときの評価値の重み
 ban={1:0,0:1}
 def evaluate_1(mancala_seeds):
-    eva=mancala_seeds[1]+mancala_seeds[2]+mancala_seeds[3]+mancala_seeds[7]-mancala_seeds[0]-mancala_seeds[10]-mancala_seeds[11]-mancala_seeds[9]
+    eva=mancala_seeds[0]-mancala_seeds[7]+(mancala_seeds[1]+mancala_seeds[2]+mancala_seeds[3]+mancala_seeds[4]+mancala_seeds[5]+mancala_seeds[6]-mancala_seeds[10]-mancala_seeds[11]-mancala_seeds[9]-mancala_seeds[8]-mancala_seeds[12]-mancala_seeds[13])
     return eva
 
 def evaluate_2(mancala_seeds):
-    eva=-(mancala_seeds[1]+mancala_seeds[2]+mancala_seeds[3]+mancala_seeds[7]-mancala_seeds[0]-mancala_seeds[10]-mancala_seeds[11]-mancala_seeds[9])
+    eva=mancala_seeds[0]-mancala_seeds[7]-(mancala_seeds[1]+mancala_seeds[2]+mancala_seeds[3]+mancala_seeds[4]+mancala_seeds[5]+mancala_seeds[6]-mancala_seeds[10]-mancala_seeds[11]-mancala_seeds[9]-mancala_seeds[8]-mancala_seeds[12]-mancala_seeds[13])
     return eva
 
 def tree_selecting(mancala_seeds,startingPosition,nowdepth,turn,player,alpha,beta):
